@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Analogue Clock</title>
+        <style>
+            .clock-mainbox {
+                border:1px solid black;
+                width:240px;
+                height:240px;
+                z-index:10;
+                background-color:black;
+                color:white;
+            }
+            .clock-perimeter {
+                width:196px;height:196px;
+                border-radius:50%;
+                z-index:0;
+                background-color:white;
+                border:2px solid black;
+                margin:0 20px;
+                overflow:hidden;
+            }
+            .innerclock {
+                width:170px;height:170px;
+                border-radius:50%;
+                position:relative;
+                z-index:10;
+                background-color:white;
+                transform:translateY(-586px) translateX(14px);
+            }
+            .twelve, .six, .nine, .three {
+                text-align: center;
+                
+            }
+            .twelve {
+                margin-bottom:0;
+            }
+            .nine, .three {
+                height:130px;
+                width:20px;
+                padding-top:110px;
+            }
+            .nine {
+                float:left;
+                margin-top:-20px;
+            }
+            .three {
+                float:right;
+                margin-top:-220px;
+            }
+            .outerclock {
+                width:177px;height:178px;
+                border-radius:50%;
+                position:relative;
+                z-index:20;
+                background-color:transparent;
+                border:10px solid white;
+                transform:translateY(-769px) translateX(0);
+            }
+            #hour-hand {
+                width:200px;height:200PX;
+                transform:rotateZ(90deg);
+                position:relative;
+                z-index:20;
+                background-image:url("hourhanda.png");
+            }
+            #minute-hand {
+                width:200px;height:200PX;
+                z-index:20;
+                position:relative;
+                transform:translateY(-200px) rotateZ(0deg);
+                background-image:url("minutehanda.png");
+            }
+            #second-hand {
+                width:198px;height:198px;
+                z-index:1;
+                position:relative;
+                transform:translateY(-400px) rotateZ(0deg);
+                background-image:url("secondhand.png");
+            }
+            @keyframes newsecond {
+              from {top: rotate(0deg)}
+              to {top: rotate(20deg)}
+            }
+        </style>
+    </head>
+    <body style="width:400px;margin:0 auto;">
+        
+        <br>
+        <div class="clock-mainbox">
+            <div class="twelve">12</div>
+            <div class="nine">9</div>
+            <div class="clock-perimeter">
+                <div id="hour-hand">
+                
+                </div>
+                <div id="minute-hand">
+                
+                </div>
+                <div id="second-hand">
+                
+                </div>
+                <div class="innerclock">
+                
+                </div>
+                <div class="outerclock">
+                
+                </div>
+            </div>
+            <span class="three">3</span>
+            <div class="six">6</div>
+        </div>
+        
+        <script>
+             var currentDate,
+                  currentHours,
+                  currentMinutes,
+                  currentSeconds,
+                  hours = [],
+                  minutes = [],
+                  seconds = [];
+               const interval = setInterval(function() {
+                  currentDate = new Date();
+                  currentHours = currentDate.getHours();
+                  if (currentHours < 10) {
+                    currentHours = '0' + currentHours;
+                  }
+                  currentMinutes = currentDate.getMinutes();
+                  if (currentMinutes < 10) {
+                    currentMinutes = '0' + currentMinutes;
+                  }
+                  currentSeconds = currentDate.getSeconds();
+                  if (currentSeconds < 10) {
+                    currentSeconds = '0' + currentSeconds;
+                  }
+
+
+                    var secondhand = document.getElementById('second-hand');
+                   
+                    var seconddeg = (currentSeconds * 6);
+                    seconddeg = parseInt(seconddeg);
+                    secondhand.style.transform = "translateY(-400px) rotate(0deg)";
+                    secondhand.style.transform = "translateY(-400px) rotate("+ seconddeg +"deg)";
+                   
+                    secondhand.style.transition = "newsecond 1s";
+                   
+                    var minutehand = document.getElementById('minute-hand');
+                   
+                    var minutesecs = (1 / 60)*currentSeconds;
+                    var currentMinutes = currentMinutes + minutesecs;
+                    var minutedeg = (currentMinutes * 6);
+                    minutedeg = parseInt(minutedeg);
+                    minutehand.style.transform = "translateY(-200px) rotate(0deg)";
+                    minutehand.style.transform = "translateY(-200px) rotate("+ minutedeg +"deg)";
+                   
+                    var hourhand = document.getElementById('hour-hand');
+                   
+                    var hourmins = (1 / 60)*currentMinutes;
+                    var currentHours = currentHours + hourmins;
+                    var hourdeg = (currentHours * 30);
+                    hourdeg = parseInt(hourdeg);
+                    hourhand.style.transform = "rotate(0deg)";
+                    hourhand.style.transform = "rotate("+ hourdeg +"deg)";
+               }, 1000);
+        </script>
+    </body>
+</html>
